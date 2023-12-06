@@ -13,11 +13,11 @@ LABEL org.label-schema.name="Ubuntu Linux" \
 
 SHELL ["/bin/bash", "-exc"]
 
-RUN apt upgrade; \
-    apt install -y --no-install-recommends --no-install-suggests \
+RUN apt-get upgrade; \
+    apt-get install -y --no-install-recommends --no-install-suggests \
         gosu tzdata tini; \
-    apt autoremove -y; \
-    apt clean; \
+    apt-get autoremove -y; \
+    apt-get clean; \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 COPY *.sh /etc/profile.d/
