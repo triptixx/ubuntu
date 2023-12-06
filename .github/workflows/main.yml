@@ -1,0 +1,47 @@
+name: docker build
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  alpine:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ubuntu_tag:
+          - '22.04,latest'
+    steps:
+      - name: clone
+        uses: actions/checkout@master
+      - name: set vars
+        id: vars
+        run: |
+          UBUNTU_TAG=${{ matrix.ubuntu_tag }}
+          echo "ubuntu_tag=${UBUNTU_TAG%%,*}" >> $GITHUB_OUTPUT
+      - name: build
+        uses: triptixx/action-docker-build@master
+        with:
+          repo: aubuntu-dev
+          build_args: UBUNTU_TAG=${{ steps.vars.outputs.ubuntu_tag }}
+      - name: test
+        uses: triptixx/action-docker-test@master
+        with:
+          verbose: true
+          repo: ubuntu-dev
+          run: gosu nobody apt --version
+      - name: publish
+        uses: triptixx/action-docker-publish@master
+        with:
+          docker_username: ${{ secrets.docker_username }}
+          docker_password: ${{ secrets.docker_password }}
+          from: ubnutu-dev
+          repo: ${{ secrets.docker_username }}/ubuntu
+          tags: ${{ matrix.ubuntu_tag }}
+      - name: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          dockerhub-user: ${{ secrets.docker_username }}
+          dockerhub-password: ${{ secrets.docker_password }}
+          command: cves
+          image: ${{ secrets.docker_username }}/ubuntu:${{ steps.vars.outputs.ubuntu_tag }}
