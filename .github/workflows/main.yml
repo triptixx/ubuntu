@@ -22,7 +22,7 @@ jobs:
       - name: build
         uses: triptixx/action-docker-build@master
         with:
-          repo: aubuntu-dev
+          repo: ubuntu-dev
           build_args: UBUNTU_TAG=${{ steps.vars.outputs.ubuntu_tag }}
       - name: test
         uses: triptixx/action-docker-test@master
@@ -35,7 +35,7 @@ jobs:
         with:
           docker_username: ${{ secrets.docker_username }}
           docker_password: ${{ secrets.docker_password }}
-          from: ubnutu-dev
+          from: ubuntu-dev
           repo: ${{ secrets.docker_username }}/ubuntu
           tags: ${{ matrix.ubuntu_tag }}
       - name: docker-scout
