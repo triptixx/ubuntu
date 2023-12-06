@@ -23,4 +23,4 @@ RUN apt-get update; \
 
 COPY *.sh /etc/profile.d/
 
-ENTRYPOINT ["/sbin/tini" , "--"]
+ENTRYPOINT ["/usr/bin/tini" , "--"]
