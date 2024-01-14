@@ -3,7 +3,7 @@ ARG UBUNTU_TAG=22.04
 FROM ubuntu:${UBUNTU_TAG}
 
 ARG UBUNTU_TAG
-ARG DEBIAN_FRONTEND="noninteractive"
+# ARG DEBIAN_FRONTEND="noninteractive"
 ENV ENV="/etc/profile"
 
 LABEL org.label-schema.name="Ubuntu Linux" \
