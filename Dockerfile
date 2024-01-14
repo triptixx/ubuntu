@@ -3,8 +3,7 @@ ARG UBUNTU_TAG=22.04
 FROM ubuntu:${UBUNTU_TAG}
 
 ARG UBUNTU_TAG
-# ARG DEBIAN_FRONTEND="noninteractive"
-ENV ENV="/etc/profile"
+ARG DEBIAN_FRONTEND="noninteractive"
 
 LABEL org.label-schema.name="Ubuntu Linux" \
       org.label-schema.description="Ubuntu Linux base image" \
@@ -16,11 +15,9 @@ SHELL ["/bin/bash", "-exc"]
 RUN apt-get update; \
     apt-get -y dist-upgrade; \
     apt-get -y --no-install-recommends --no-install-suggests install \
-        gosu tzdata tini tree; \
+        gosu tzdata tini; \
     apt-get -y autopurge; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
-
-COPY *.sh /etc/profile.d/
 
 ENTRYPOINT ["/usr/bin/tini" , "--"]
