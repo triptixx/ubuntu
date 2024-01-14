@@ -4,6 +4,7 @@ FROM ubuntu:${UBUNTU_TAG}
 
 ARG UBUNTU_TAG
 ARG DEBIAN_FRONTEND="noninteractive"
+ENV ENV="/etc/profile"
 
 LABEL org.label-schema.name="Ubuntu Linux" \
       org.label-schema.description="Ubuntu Linux base image" \
@@ -13,11 +14,13 @@ LABEL org.label-schema.name="Ubuntu Linux" \
 SHELL ["/bin/bash", "-exc"]
 
 RUN apt-get update; \
-    apt-get -y upgrade; \
+    apt-get -y dist-upgrade; \
     apt-get -y --no-install-recommends --no-install-suggests install \
-        gosu tzdata tini; \
+        gosu tzdata tini tree; \
     apt-get -y autopurge; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
+
+COPY *.sh /etc/profile.d/
 
 ENTRYPOINT ["/usr/bin/tini" , "--"]
