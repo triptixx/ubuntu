@@ -10,7 +10,8 @@ jobs:
     strategy:
       matrix:
         ubuntu_tag:
-          - '22.04,latest'
+          - '22.04'
+          - '24.04,latest'
     steps:
       - name: clone
         uses: actions/checkout@master
